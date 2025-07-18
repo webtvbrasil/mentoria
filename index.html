@@ -480,7 +480,95 @@
         }
     }
 </style>
-    </style>
+<style>
+    /* Container das Notificações */
+#fake-notifications-container {
+    position: fixed;
+    top: 20px; /* Distância do topo */
+    right: 20px; /* Distância da direita */
+    z-index: 1000; /* Garante que fique acima de outros elementos */
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espaçamento entre as notificações */
+    max-width: 320px; /* Largura máxima para cada notificação */
+    pointer-events: none; /* Permite clicar através do container se vazio */
+}
+
+/* Estilo para cada Notificação Individual (Glassmorphism) */
+.fake-notification {
+    background: #ffffff0d; /* Fundo transparente */
+    backdrop-filter: blur(10px); /* Efeito de vidro esfumaçado */
+    border: 1px solid rgba(255, 255, 255, .1); /* Borda sutil */
+    border-radius: .75rem; /* Cantos arredondados */
+    padding: 1rem 1.25rem; /* Espaçamento interno */
+    color: #e0e7ff; /* Cor do texto principal */
+    font-family: 'Inter', sans-serif; /* Tipografia limpa */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    opacity: 0; /* Começa invisível para a animação */
+    transform: translateY(20px); /* Começa um pouco abaixo para animação */
+    animation: fadeInOut 8s forwards; /* Animação de entrada e saída */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    pointer-events: auto; /* Permite interação com a notificação (se houver, como fechar) */
+    position: relative; /* Para a bolha de status */
+}
+
+/* Ícone de status (bolha verde/roxa/ciano) */
+.fake-notification::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #22c55e; /* Verde para 'comprou' */
+    flex-shrink: 0; /* Não encolher */
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
+}
+
+.fake-notification.bought::before { background-color: #22c55e; box-shadow: 0 0 8px rgba(34, 197, 94, 0.6); }
+.fake-notification.joined::before { background-color: #8b5cf6; box-shadow: 0 0 8px rgba(139, 92, 246, 0.6); }
+.fake-notification.received::before { background-color: #06b6d4; box-shadow: 0 0 8px rgba(6, 182, 212, 0.6); }
+
+
+/* Animação de Fade In e Fade Out */
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateY(20px); } /* Início */
+    10% { opacity: 1; transform: translateY(0); } /* Totalmente visível e na posição */
+    90% { opacity: 1; transform: translateY(0); } /* Permanece visível */
+    100% { opacity: 0; transform: translateY(-20px); } /* Desaparece e sobe um pouco */
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 768px) {
+    #fake-notifications-container {
+        top: 15px;
+        right: 15px;
+        max-width: 280px;
+        gap: 10px;
+    }
+    .fake-notification {
+        padding: 0.8rem 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 640px) {
+    #fake-notifications-container {
+        top: 10px;
+        right: 10px;
+        max-width: 90%; /* Ocupa mais largura em telas muito pequenas */
+        left: 50%;
+        transform: translateX(-50%); /* Centraliza */
+    }
+    .fake-notification {
+        text-align: center;
+    }
+    .fake-notification::before {
+        display: none; /* Esconde a bolha para economizar espaço em mobile */
+    }
+}
+
+</style>
 </head>
 <body>
     <div class="background-orbs">
@@ -606,6 +694,59 @@
 <!-- ATENÇÃO: Substitua 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' por um som de moeda mais apropriado, como: 
      - https://s.cdpn.io/3/success.mp3 (exemplo simples de sucesso)
      - Procure por "coin sound effect mp3" no Google para encontrar opções gratuitas e livres de direitos autorais. -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+    const notificationsContainer = document.getElementById('fake-notifications-container');
+    const coinSound = document.getElementById('coin-sound');
+
+    // Nomes e tipos de mensagens com um foco na sua copy
+    const messages = [
+        { name: "João", action: "acabou de comprar a Mentoria de Milhões!", type: "bought" },
+        { name: "Maria", action: "acessou o Grupo Exclusivo de Mentoria!", type: "joined" },
+        { name: "Carlos", action: "já está aplicando as estratégias para Múltiplos Dígitos Mensais!", type: "received" },
+        { name: "Ana", action: "garantiu sua vaga na próxima turma da Mentoria de Milhões!", type: "bought" },
+        { name: "Pedro", action: "entrou para a comunidade que está lucrando no digital!", type: "joined" },
+        { name: "Luciana", action: "recebeu o check-list exclusivo da Mentoria!", type: "received" },
+        { name: "Fernanda", action: "garantiu acesso vitalício à Mentoria de Milhões!", type: "bought" },
+        { name: "Rafael", action: "já está com as respostas diretas para escalar!", type: "received" },
+    ];
+
+    function getRandomMessage() {
+        const randomIndex = Math.floor(Math.random() * messages.length);
+        return messages[randomIndex];
+    }
+
+    function showNotification() {
+        const msg = getRandomMessage();
+        const notificationDiv = document.createElement('div');
+        notificationDiv.className = `fake-notification ${msg.type}`;
+        notificationDiv.innerHTML = `
+            <strong>${msg.name}</strong> ${msg.action}
+        `;
+
+        notificationsContainer.appendChild(notificationDiv);
+
+        // Toca o som da moeda
+        if (coinSound) {
+            coinSound.currentTime = 0; // Reinicia o áudio se já estiver tocando
+            coinSound.play().catch(e => console.error("Erro ao tocar o áudio:", e)); // Tratamento de erro para autoplay policies
+        }
+
+        // Remove a notificação após a animação (8 segundos, conforme o CSS)
+        setTimeout(() => {
+            notificationDiv.remove();
+        }, 8000); 
+    }
+
+    // Inicia a exibição das notificações após um pequeno atraso inicial
+    // e depois repete a cada 10-25 segundos
+    setTimeout(() => {
+        showNotification();
+        setInterval(showNotification, Math.random() * (25000 - 10000) + 10000); // Entre 10 e 25 segundos
+    }, 2000); // Primeira notificação após 2 segundos
+});
+
+</script>
 
 </body>
 </html>
