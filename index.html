@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentoria de Milhões: Sua Escalada ao Sucesso Digital</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* Será preenchido com o CSS na próxima parte */
+    </style>
+</head>
+<body>
+    <div class="background-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">Mentoria de <span class="logo-highlight">Milhões</span></a>
+                <ul class="nav-links">
+                    <li><a href="#proposta" class="nav-link">A Mentoria</a></li>
+                    <li><a href="#beneficios" class="nav-link">Benefícios</a></li>
+                    <li><a href="#faq" class="nav-link">FAQ</a></li>
+                    <li><a href="#contato" class="nav-link">Contato</a></li>
+                </ul>
+                <button class="menu-toggle material-icons">menu</button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-headline">
+                        <span class="text-gold">Venda</span> <span class="text-white-brilliant">Mentoria de Milhões:</span>
+                        <span class="text-coral">Do Zero</span> <span class="text-white-brilliant">a Múltiplos Dígitos Mensais.</span>
+                    </h1>
+                    <p class="hero-subtext">
+                        Não ter a resposta certa e direta ao ponto, trava seu lucro no digital. De tráfego no FBK a Funil Back End de produtos High Ticket. Tenha resposta direta com quem está lucrando nesse exato momento no digital.
+                    </p>
+
+                    <div class="video-container glassmorphism-card">
+                        <!-- Placeholder de Vídeo -->
+                        <div class="video-placeholder">
+                            <img src="https://media.istockphoto.com/id/1770753330/pt/foto/close-up-of-businesswoman-analyzing-income-charts-and-graphs-with-modern-laptop-and-tablet.webp?s=2048x2048&w=is&k=20&c=qf0FodGmvHqMlfKMU6qYGT_0hpa4IMecA6VDQDiuhMI=" alt="Vídeo de Vendas Placeholder" class="video-thumbnail">
+                            <button class="play-button material-icons">play_arrow</button>
+                            <span class="video-title">Assista e Destrave Seu Potencial</span>
+                        </div>
+                        <!-- Link real do vídeo pode ser adicionado aqui depois, ou abrir em modal via JS -->
+                    </div>
+
+                    <div class="countdown-cta-group">
+                        <div class="countdown-timer glassmorphism-card">
+                            <p class="countdown-label">Vagas Fecham Em:</p>
+                            <div class="timer-display">
+                                <span class="time-unit" id="days">00</span><span class="unit-label">D</span>
+                                <span class="time-unit" id="hours">00</span><span class="unit-label">H</span>
+                                <span class="time-unit" id="minutes">00</span><span class="unit-label">M</span>
+                                <span class="time-unit" id="seconds">00</span><span class="unit-label">S</span>
+                            </div>
+                        </div>
+
+                        <button class="cta-button">
+                            QUERO MINHA VAGA AGORA!
+                            <span class="material-icons">arrow_forward</span>
+                        </button>
+                    </div>
+
+                    <p class="cta-disclaimer">
+                        É como dizem: "Fazer 10 por dia é impossível até conversar com quem faz 100 mil por dia." <br>
+                        Você decide se merece entrar.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- As próximas seções (conteúdo, FAQ, etc.) virão em entregas futuras -->
+    </main>
+
+    <!-- Embed external JavaScript to disable developer tools -->
+    <script src="https://disabletools.github.io/disable-tools/disable-tools.js"></script>
+    <script>
+        // Contador regressivo JS (Placeholder, será detalhado na próxima parte se necessário)
+        function updateCountdown() {
+            // Data alvo: Exemplo, 7 dias a partir de agora
+            const targetDate = new Date();
+            targetDate.setDate(targetDate.getDate() + 7); // Ou uma data específica
+
+            const countdownInterval = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = targetDate.getTime() - now;
+
+                if (distance < 0) {
+                    clearInterval(countdownInterval);
+                    document.querySelector('.countdown-timer').innerHTML = '<p class="countdown-label">Vagas Encerradas!</p>';
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById('days').textContent = String(days).padStart(2, '0');
+                document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+                document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+                document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+            }, 1000);
+        }
+
+        document.addEventListener('DOMContentLoaded', updateCountdown);
+
+
+        // Toggle do menu mobile (placeholder, será detalhado na próxima parte se necessário)
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
